@@ -1,6 +1,6 @@
 # SAM AI - Assistente de Inteligência Artificial
 
-Uma aplicação ChatGPT-like completa desenvolvida com FastAPI (backend) e React (frontend), integrada com OpenAI GPT-3.5-turbo.
+Uma aplicação ChatGPT-like completa desenvolvida com FastAPI (backend) e React (frontend), integrada com OpenAI GPT-4, containerizada com Docker para deploy fácil.
 
 ## 🚀 Funcionalidades
 
@@ -18,7 +18,7 @@ Uma aplicação ChatGPT-like completa desenvolvida com FastAPI (backend) e React
 - **Timestamps e formatação** - UI/UX profissional
 
 ### ✅ Integração OpenAI
-- **GPT-3.5-turbo** - Modelo de linguagem avançado
+- **GPT-4** - Modelo de linguagem avançado
 - **Histórico de conversas** - Persistência durante a sessão
 - **Gerenciamento de contexto** - Mantém últimas 10 mensagens
 - **Formatação de código** - Syntax highlighting e botões de cópia
@@ -29,6 +29,12 @@ Uma aplicação ChatGPT-like completa desenvolvida com FastAPI (backend) e React
 - **Temas claro/escuro** - Compatibilidade total
 - **Animações modernas** - Efeitos visuais profissionais
 
+### ✅ Docker & Deploy
+- **Containerização completa** - Docker para backend e frontend
+- **Docker Compose** - Orquestração de serviços
+- **Nginx** - Servidor web otimizado para produção
+- **Multi-stage builds** - Imagens otimizadas
+
 ## 🏗️ Arquitetura
 
 ```
@@ -37,24 +43,30 @@ sam-ai-application/
 │   ├── app/
 │   │   └── main.py          # Aplicação principal
 │   ├── pyproject.toml       # Dependências Python
+│   ├── Dockerfile           # Container backend
 │   └── .env.example         # Variáveis de ambiente
-└── chatgpt-auth-frontend/    # React Frontend
-    ├── src/
-    │   ├── App.tsx          # Componente principal
-    │   ├── components/      # Componentes React
-    │   └── index.css        # Estilos globais
-    ├── package.json         # Dependências Node.js
-    └── .env.example         # Variáveis de ambiente
+├── chatgpt-auth-frontend/    # React Frontend
+│   ├── src/
+│   │   ├── App.tsx          # Componente principal
+│   │   ├── components/      # Componentes React
+│   │   └── index.css        # Estilos globais
+│   ├── package.json         # Dependências Node.js
+│   ├── Dockerfile           # Container frontend
+│   ├── nginx.conf           # Configuração Nginx
+│   └── .env.example         # Variáveis de ambiente
+├── docker-compose.yml       # Orquestração de serviços
+└── .env.example            # Configuração global
 ```
 
 ## 🛠️ Tecnologias Utilizadas
 
 ### Backend
 - **FastAPI** - Framework web moderno e rápido
-- **OpenAI API** - Integração com GPT-3.5-turbo
+- **OpenAI API** - Integração com GPT-4
 - **JWT** - Autenticação segura
 - **SMTP** - Envio de emails (configurável)
 - **CORS** - Configuração para frontend
+- **Docker** - Containerização
 
 ### Frontend
 - **React + TypeScript** - Interface moderna
@@ -62,8 +74,60 @@ sam-ai-application/
 - **shadcn/ui** - Componentes de UI
 - **Lucide React** - Ícones modernos
 - **Vite** - Build tool otimizado
+- **Nginx** - Servidor web de produção
 
-## ⚙️ Configuração e Instalação
+## 🐳 Deploy com Docker (Recomendado)
+
+### Pré-requisitos
+- Docker e Docker Compose instalados
+- Chave da OpenAI API
+
+### 1. Clone o repositório
+```bash
+git clone https://github.com/svieira1985/gpt-webassist-sam.git
+cd gpt-webassist-sam
+```
+
+### 2. Configure as variáveis de ambiente
+```bash
+cp .env.example .env
+```
+
+Edite o arquivo `.env`:
+```env
+# OpenAI Configuration
+OPENAI_API_KEY=sua_chave_openai_aqui
+
+# JWT Secret Key
+SECRET_KEY=sua_chave_jwt_secreta_aqui
+
+# SMTP Configuration (Opcional - para envio de emails)
+SMTP_SERVER=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=seu_email@gmail.com
+SMTP_PASSWORD=sua_senha_app_gmail
+```
+
+### 3. Execute com Docker Compose
+```bash
+# Build e start dos serviços
+docker-compose up --build
+
+# Ou em background
+docker-compose up --build -d
+```
+
+### 4. Acesse a aplicação
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:8000
+- **Documentação API**: http://localhost:8000/docs
+
+### 5. Parar os serviços
+```bash
+docker-compose down
+```
+
+## ⚙️ Desenvolvimento Local (Sem Docker)
 
 ### Pré-requisitos
 - Node.js 18+ e npm/yarn/pnpm
@@ -90,7 +154,7 @@ sam-ai-application/
    Edite o arquivo `.env`:
    ```env
    OPENAI_API_KEY=sua_chave_openai_aqui
-   JWT_SECRET_KEY=sua_chave_jwt_secreta
+   SECRET_KEY=sua_chave_jwt_secreta
    SMTP_USERNAME=seu_email_smtp (opcional)
    SMTP_PASSWORD=sua_senha_smtp (opcional)
    SMTP_SERVER=smtp.gmail.com (opcional)
@@ -135,18 +199,82 @@ sam-ai-application/
 
 ## 🚀 Deploy em Produção
 
-### Backend (Fly.io)
+### Opção 1: Docker (Recomendado)
+
+1. **Configure o servidor de produção:**
+   ```bash
+   # Clone o repositório no servidor
+   git clone https://github.com/svieira1985/gpt-webassist-sam.git
+   cd gpt-webassist-sam
+   
+   # Configure as variáveis de ambiente
+   cp .env.example .env
+   # Edite .env com as configurações de produção
+   
+   # Execute em produção
+   docker-compose up --build -d
+   ```
+
+2. **Configure proxy reverso (Nginx/Apache):**
+   ```nginx
+   server {
+       listen 80;
+       server_name seu-dominio.com;
+       
+       location / {
+           proxy_pass http://localhost:3000;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+       }
+       
+       location /api {
+           proxy_pass http://localhost:8000;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+       }
+   }
+   ```
+
+### Opção 2: Deploy Separado
+
+#### Backend (Fly.io/Railway/Heroku)
 ```bash
 cd chatgpt-auth-backend
-# Configure as variáveis de ambiente no Fly.io
-fly deploy
+# Configure as variáveis de ambiente na plataforma
+fly deploy  # ou railway deploy, etc.
 ```
 
-### Frontend (Vercel/Netlify)
+#### Frontend (Vercel/Netlify)
 ```bash
 cd chatgpt-auth-frontend
 npm run build
 # Deploy da pasta dist/
+```
+
+## 🐳 Comandos Docker Úteis
+
+```bash
+# Ver logs dos serviços
+docker-compose logs -f
+
+# Ver logs de um serviço específico
+docker-compose logs -f backend
+docker-compose logs -f frontend
+
+# Rebuild apenas um serviço
+docker-compose up --build backend
+docker-compose up --build frontend
+
+# Executar comandos dentro dos containers
+docker-compose exec backend bash
+docker-compose exec frontend sh
+
+# Limpar volumes e rebuild completo
+docker-compose down -v
+docker-compose up --build
+
+# Ver status dos containers
+docker-compose ps
 ```
 
 ## 📋 Como Usar
