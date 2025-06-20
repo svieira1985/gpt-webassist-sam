@@ -1,0 +1,363 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --radius: 0.5rem
+  ;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%}
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%
+  }
+}
+
+/* Formatted content styling for chat messages */
+.formatted-content {
+  /* Code block containers */
+  .code-block-container {
+    @apply my-4 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden;
+  }
+  
+  /* Code blocks */
+  pre {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto my-4 border border-gray-200 dark:border-gray-700;
+  }
+  
+  pre code {
+    @apply text-sm font-mono text-gray-800 dark:text-gray-200 bg-transparent;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+  
+  /* Copy buttons */
+  .copy-button {
+    @apply transition-all duration-200 cursor-pointer bg-[#EB6625] hover:bg-[#EA6323] text-white px-3 py-1 rounded text-xs;
+  }
+  
+  .copy-button:hover {
+    @apply transform scale-105;
+  }
+  
+  /* Inline code */
+  code {
+    @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono text-gray-800 dark:text-gray-200;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+  
+  /* Headers */
+  h1 {
+    @apply text-2xl font-bold mt-6 mb-4 text-gray-900 dark:text-white;
+  }
+  
+  h2 {
+    @apply text-xl font-bold mt-5 mb-3 text-gray-900 dark:text-white;
+  }
+  
+  h3 {
+    @apply text-lg font-bold mt-4 mb-2 text-gray-900 dark:text-white;
+  }
+  
+  /* Lists */
+  ul {
+    @apply list-disc list-inside my-4 space-y-2;
+  }
+  
+  ol {
+    @apply list-decimal list-inside my-4 space-y-2;
+  }
+  
+  li {
+    @apply text-gray-800 dark:text-gray-200 leading-relaxed;
+  }
+  
+  /* Text formatting */
+  strong {
+    @apply font-bold text-gray-900 dark:text-white;
+  }
+  
+  em {
+    @apply italic text-gray-800 dark:text-gray-200;
+  }
+  
+  /* Line breaks */
+  br {
+    @apply block my-2;
+  }
+}
+
+/* Landing Page Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseSlow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes bounceSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out;
+}
+
+.animate-text-reveal {
+  animation: textReveal 0.8s ease-out;
+}
+
+.animate-text-reveal-delay-1 {
+  animation: textReveal 0.8s ease-out 0.2s both;
+}
+
+.animate-text-reveal-delay-2 {
+  animation: textReveal 0.8s ease-out 0.4s both;
+}
+
+.animate-text-reveal-delay-3 {
+  animation: textReveal 0.8s ease-out 0.6s both;
+}
+
+.animate-text-reveal-delay-4 {
+  animation: textReveal 0.8s ease-out 0.8s both;
+}
+
+.animate-text-reveal-delay-5 {
+  animation: textReveal 0.8s ease-out 1s both;
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 3s ease-in-out infinite;
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 2s ease-in-out infinite;
+}
+
+/* Floating Shapes */
+.floating-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.shape-1 {
+  width: 80px;
+  height: 80px;
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 120px;
+  height: 120px;
+  top: 60%;
+  right: 15%;
+  animation: floatReverse 8s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.shape-3 {
+  width: 60px;
+  height: 60px;
+  top: 80%;
+  left: 20%;
+  animation-delay: 2s;
+}
+
+.shape-4 {
+  width: 100px;
+  height: 100px;
+  top: 30%;
+  right: 30%;
+  animation: floatReverse 7s ease-in-out infinite;
+  animation-delay: 3s;
+}
+
+.shape-5 {
+  width: 40px;
+  height: 40px;
+  top: 10%;
+  right: 10%;
+  animation-delay: 4s;
+}
+
+/* Geometric Lines */
+.geometric-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.line {
+  position: absolute;
+  background: linear-gradient(45deg, #EB6625, #EA6323);
+  opacity: 0.1;
+}
+
+.line-1 {
+  width: 2px;
+  height: 200px;
+  top: 20%;
+  left: 5%;
+  transform: rotate(45deg);
+  animation: slideInFromLeft 2s ease-out;
+}
+
+.line-2 {
+  width: 2px;
+  height: 150px;
+  top: 50%;
+  right: 8%;
+  transform: rotate(-30deg);
+  animation: slideInFromRight 2s ease-out 0.5s both;
+}
+
+.line-3 {
+  width: 2px;
+  height: 100px;
+  bottom: 20%;
+  left: 15%;
+  transform: rotate(60deg);
+  animation: slideInFromLeft 2s ease-out 1s both;
+}
+
+/* Feature Cards */
+.feature-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+}
+
+/* Hero Content */
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo-glow {
+  animation: pulseSlow 4s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .shape {
+    display: none;
+  }
+  
+  .geometric-lines {
+    display: none;
+  }
+  
+  .hero-content {
+    padding: 0 1rem;
+  }
+}
+
